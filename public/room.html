@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Sala</title>
+            <link rel="stylesheet" href="css/room.css">
+        </head>
+        <body>
+            <div id="container">
+                <div id="video-container">
+                    <div id="video-section">
+                        <video autoplay="true" id="video"></video>
+                    </div>
+                    <div id="button-container">
+                        <button class="button" id="mic"><img id="mic-img" src="img/icons/mic.png" alt="X"></button>
+                        <button class="button" id="camera"><img id="camera-img" src="img/icons/camera.png" alt="X"></button>
+                        <button class="button" id="call"><img id="call-img" src="img/icons/end-call.png" alt="X"></button>
+                    </div>
+                </div>
+                <div id="chat">
+                    <div id="messages"></div>
+                    <div id="text">
+                        <input type="text" placeholder="Mensaje">
+                    </div>
+                </div>
+            </div>
+
+            <script src="/socket.io/socket.io.js"></script>
+            <script src="js/room.js"></script>
+        </body>
+    </html>

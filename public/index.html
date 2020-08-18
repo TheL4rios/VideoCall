@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Inicio de sesión</title>
+            <link rel="stylesheet" href="css/index.css">
+        </head>
+        <body>
+            <div id="container">
+                <form action="room.html" method="POST">
+                    <label>Crea o unete a una sala</label>
+                    <input type="text" placeholder="Sala" name="room" required>
+                    <input type="password" name="password" placeholder="Contraseña">
+                    <button id="create-room" name="action" value="create">Crear sala</button>
+                    <button id="join-to-room" name="action" value="join">Unirme a la sala</button>
+                </form>
+            </div>
+
+            <script src="/socket.io/socket.io.js"></script>
+        </body>
+    </html>
