@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     init();
 });
 
+const ID = String(window.location).split('/')[4];
+
 navigator.getUserMedia = (navigator.getUserMedia        ||
                           navigator.webkitGetUserMedia  ||
                           navigator.mozGetUserMedia     ||
@@ -11,21 +13,18 @@ let camera = true;
 const socket = io();
 
 socket.on('messages', (data) => {
-    console.log(data);
     document.getElementById('messages').append(data);
 });
 
 init = function() {
-    
     initCamera(camera, mic);
 }
 
 function initCamera(video, mic) {
     if (navigator.getUserMedia) {
         navigator.getUserMedia({video: video, audio: mic},loadCamera,() => {});
+        videoAdjust();
     }
-
-    videoAdjust();
 }
 
 function loadCamera(stream){
@@ -80,4 +79,10 @@ document.getElementById('camera').addEventListener('click', () => {
 
 document.getElementById('call').addEventListener('click', () => {
     
+});
+
+document.getElementById('message').addEventListener('keyup', (event) => {
+    if (event.keyCode === 13) {
+        
+    }
 });

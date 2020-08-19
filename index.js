@@ -9,31 +9,30 @@ http.listen(port, () => {
     console.log('Running in port ' + port);
 });
 
+app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 
-/*io.on('connection', (socket) => {
-    socket.on('stream', (image) => {
-        socket.broadcast.emit('stram', image);
-    });
-});*/
-
-app.post('/room.html', function(request, response) {
+app.post('/room.html', (request, response) => {
     if (request.body.action == 'create') {
         const room = request.body.room;
         const pass = request.body.password;
         
-        io.on('connection', (socket) => {
-            response.status(200);
-            socket.join(room + pass);
-            response.redirect('/room.html');
-            io.to(room + pass).emit('messages', 'hi');
-        });
+        response.redirect('/room.html/' + room + pass);
     } else if (request.body.action == 'join') {
         
     } else {
         
     }
+});
+
+app.get('/room.html/:data', (request, response) => {
+    response.render('room', {id: request.params.data});
+});
+
+io.on('connection', (socket) => {
+    socket.join('sdf');
+    io.to('sdf').emit('messages', 'hi');
 });
 
 /*io.on('connection', (socket) => {
