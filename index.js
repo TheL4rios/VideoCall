@@ -14,29 +14,26 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 
 app.post('/room.html', (request, response) => {
-    if (request.body.action == 'create') {
-        const room = request.body.room;
-        const pass = request.body.password;
-        
-        response.redirect('/room.html/' + room + pass);
-    } else if (request.body.action == 'join') {
-        
-    } else {
-        
-    }
+    const room = request.body.room;
+    const pass = request.body.password;
+    response.redirect('/room.html/' + room + pass);
 });
 
 app.get('/room.html/:data', (request, response) => {
-    response.render('room', {id: request.params.data});
+    response.render('room', {room: request.params.data});
 });
 
 io.on('connection', (socket) => {
-    socket.join('sdf');
-    io.to('sdf').emit('messages', 'hi');
-});
+    socket.on('join', (room) => {
+        socket.join(room);
 
-/*io.on('connection', (socket) => {
-    socket.on('stream', (image) => {
-        socket.broadcast.emit('stream', image);
+        socket.on('message', (message) => {
+            io.to(room).emit('newMessage', message);
+        });
+
+        socket.on('stream', (stream) => {
+            socket.broadcast.emit('newStream', stream);
+            //io.to(room).emit('newStream', stream);
+        });
     });
-});*/
+});

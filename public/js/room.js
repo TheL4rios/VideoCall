@@ -12,8 +12,20 @@ let mic = true;
 let camera = true;
 const socket = io();
 
-socket.on('messages', (data) => {
-    document.getElementById('messages').append(data);
+socket.emit('join', ID);
+
+socket.on('newMessage', (message) => {
+    const div = document.createElement('div');
+    div.className = 'message';
+    const p = document.createElement('p');
+    p.append(message);
+    div.appendChild(p);
+    document.getElementById('messages').appendChild(div);
+});
+
+socket.on('newStream', (stream) => {
+    loadCamera(stream);
+    videoAdjust();
 });
 
 init = function() {
@@ -22,18 +34,23 @@ init = function() {
 
 function initCamera(video, mic) {
     if (navigator.getUserMedia) {
-        navigator.getUserMedia({video: video, audio: mic},loadCamera,() => {});
-        videoAdjust();
+        navigator.getUserMedia({video: video, audio: mic},(stream) => {
+            loadCamera(stream);
+            socket.emit('stream', stream);
+        },() => {});
     }
 }
 
 function loadCamera(stream){
-    const video = document.getElementById('video');
+    const video = document.createElement('video');
+    video.className = 'video';
+    video.autoplay = 'true';
+    document.getElementById('video-section').appendChild(video);
 
     try {
         video.srcObject = stream;
     } catch (error) {
-        video.src = URL.createObjectURL(stream);
+        video.src = (window.URL || window.webkitURL).createObjectURL(stream);
     }
 }
 
@@ -83,6 +100,11 @@ document.getElementById('call').addEventListener('click', () => {
 
 document.getElementById('message').addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
-        
+        let text = document.getElementById('message').value;
+
+        if (text != '') {
+            socket.emit('message', text);
+            document.getElementById('message').value = '';
+        }
     }
 });
