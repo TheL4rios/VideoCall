@@ -58,7 +58,7 @@ html, body {
     background-color: white;
     border-left: 5px;
     border-bottom: 5px;
-    overflow: scroll;
+    overflow: auto;
     padding: 10px;
     box-sizing:border-box;
 }
@@ -86,13 +86,14 @@ html, body {
 
 .message {
     width: 100%;
-    border-style: solid;
-    border-radius: 10px;
+    overflow: visible;
+    border-bottom: solid 1px;
     margin-bottom: 10px;
 }
 
 .message p {
-    text-align: center;
+    width: 100%;
+    overflow-wrap: break-word;
 }
 
 @media (max-width: 500px) {
